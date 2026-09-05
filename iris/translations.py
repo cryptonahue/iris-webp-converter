@@ -1,9 +1,6 @@
-"""Traducciones para Iris (español, inglés, portugués de Brasil)."""
+"""Translations for Iris: Spanish, English, and Brazilian Portuguese."""
 
-# Cada clave es un mensaje con su traducción en es / en / pt-BR.
-# Última posición de la clave puede ser un diccionario de opciones por idioma.
 MESSAGES = {
-    # Pantalla principal
     "desc": {
         "es": "Convierte imágenes a WebP con procesamiento en paralelo.",
         "en": "Converts images to WebP with parallel processing.",
@@ -163,6 +160,6 @@ MESSAGES = {
 
 
 def text(lang, key, **kwargs):
-    """Traduce y formatea un mensaje."""
+    """Translate and format a message."""
     template = MESSAGES[key][lang]
     return template.format(**kwargs)

@@ -33,6 +33,9 @@ pip install -r requirements.txt
 # Básico (usa input/ y output/)
 python iris.py
 
+# También puede ejecutarse como módulo
+python -m iris
+
 # Entrada personalizada
 python iris.py --input ./mis_fotos
 

@@ -1,7 +1,7 @@
 import pytest
 from PIL import Image
 
-import iris
+import iris.converter as converter
 
 
 class FixedDatetime:
@@ -14,9 +14,9 @@ class FixedDatetime:
 
 
 def test_format_bytes_uses_human_readable_units():
-    assert iris.format_bytes(0) == "0.0 B"
-    assert iris.format_bytes(1024) == "1.0 KB"
-    assert iris.format_bytes(1536) == "1.5 KB"
+    assert converter.format_bytes(0) == "0.0 B"
+    assert converter.format_bytes(1024) == "1.0 KB"
+    assert converter.format_bytes(1536) == "1.5 KB"
 
 
 @pytest.mark.parametrize(
@@ -30,7 +30,7 @@ def test_format_bytes_uses_human_readable_units():
     ],
 )
 def test_resolve_lang_normalizes_supported_languages(raw, expected):
-    assert iris.resolve_lang(raw) == expected
+    assert converter.resolve_lang(raw) == expected
 
 
 def test_no_images_does_not_create_output_directory(tmp_path):
@@ -38,7 +38,7 @@ def test_no_images_does_not_create_output_directory(tmp_path):
     output_dir = tmp_path / "output"
     input_dir.mkdir()
 
-    exit_code = iris.convert_to_webp(
+    exit_code = converter.convert_to_webp(
         input_folder=input_dir,
         output_folder=output_dir,
         lang="en",
@@ -54,7 +54,7 @@ def test_dry_run_does_not_create_output_directory(tmp_path):
     input_dir.mkdir()
     Image.new("RGB", (2, 2), color="red").save(input_dir / "sample.png")
 
-    exit_code = iris.convert_to_webp(
+    exit_code = converter.convert_to_webp(
         input_folder=input_dir,
         output_folder=output_dir,
         dry_run=True,
@@ -71,7 +71,7 @@ def test_converts_png_to_webp(tmp_path):
     input_dir.mkdir()
     Image.new("RGB", (3, 2), color="blue").save(input_dir / "sample.png")
 
-    exit_code = iris.convert_to_webp(
+    exit_code = converter.convert_to_webp(
         input_folder=input_dir,
         output_folder=output_dir,
         lang="en",
@@ -93,7 +93,7 @@ def test_preserves_nested_folder_structure(tmp_path):
     nested_dir.mkdir(parents=True)
     Image.new("RGB", (1, 1), color="green").save(nested_dir / "photo.jpg")
 
-    exit_code = iris.convert_to_webp(
+    exit_code = converter.convert_to_webp(
         input_folder=input_dir,
         output_folder=output_dir,
         lang="en",
@@ -110,13 +110,13 @@ def test_skip_existing_does_not_overwrite_existing_file(tmp_path, monkeypatch):
     input_dir.mkdir()
     Image.new("RGB", (2, 2), color="red").save(input_dir / "sample.png")
 
-    monkeypatch.setattr(iris, "datetime", FixedDatetime)
-    monkeypatch.setattr(iris.uuid, "uuid4", lambda: "12345678-0000-0000-0000-000000000000")
+    monkeypatch.setattr(converter, "datetime", FixedDatetime)
+    monkeypatch.setattr(converter.uuid, "uuid4", lambda: "12345678-0000-0000-0000-000000000000")
     existing_file = output_dir / "webp_conversion_20240101_010203_12345678" / "sample.webp"
     existing_file.parent.mkdir(parents=True)
     existing_file.write_bytes(b"existing")
 
-    exit_code = iris.convert_to_webp(
+    exit_code = converter.convert_to_webp(
         input_folder=input_dir,
         output_folder=output_dir,
         skip_existing=True,
