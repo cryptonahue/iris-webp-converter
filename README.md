@@ -1,6 +1,8 @@
-# 🌈 Iris — WebP Image Converter
+# 🌈 Iris WebP Converter
 
-Convierte imágenes (**SVG, JPG, JPEG, PNG**) a **WebP** con procesamiento en paralelo, preservando la estructura de carpetas original y con estadísticas detalladas de compresión.
+Convierte imágenes (**SVG, JPG, JPEG, PNG**) a **WebP** con procesamiento en paralelo, preservando la estructura de carpetas original y mostrando estadísticas de compresión.
+
+Repositorio: [cryptonahue/iris-webp-converter](https://github.com/cryptonahue/iris-webp-converter)
 
 ## ✨ Características
 
@@ -8,9 +10,10 @@ Convierte imágenes (**SVG, JPG, JPEG, PNG**) a **WebP** con procesamiento en pa
 - 🗂️ **Preserva estructura**: mantiene el árbol de carpetas en la salida
 - ⚡ **Procesamiento en paralelo**: usa múltiples hilos (`--workers`)
 - 📊 **Estadísticas**: dimensiones, tamaño original vs nuevo, % de reducción
-- 👁️ **Modo dry-run**: simula la conversión sin generar archivos
+- 👁️ **Modo dry-run**: simula la conversión sin generar archivos ni carpetas de salida
 - ⏭️ **`--skip-existing`**: omite archivos ya convertidos
 - 🎨 **Calidad configurable** (0-100)
+- 🌎 **Idiomas**: español, inglés y portugués de Brasil
 
 ## 🚀 Instalación
 
@@ -18,8 +21,11 @@ Convierte imágenes (**SVG, JPG, JPEG, PNG**) a **WebP** con procesamiento en pa
 pip install -r requirements.txt
 ```
 
-> **SVG**: para convertir archivos SVG necesita `cairosvg` (opcional):
-> `pip install cairosvg`
+> **SVG**: para convertir archivos SVG necesitás `cairosvg` (opcional):
+>
+> ```bash
+> pip install cairosvg
+> ```
 
 ## 📖 Uso
 
@@ -33,11 +39,14 @@ python iris.py --input ./mis_fotos
 # Calidad y workers
 python iris.py --input ./fotos --output ./out --quality 90 --workers 8
 
-# Modo simulación (no convierte nada)
+# Modo simulación: no convierte ni crea salida
 python iris.py --input ./fotos --dry-run
 
 # Omitir archivos ya convertidos
 python iris.py --input ./fotos --skip-existing
+
+# Elegir idioma
+python iris.py --lang es
 ```
 
 ### Argumentos
@@ -48,12 +57,13 @@ python iris.py --input ./fotos --skip-existing
 | `--output, -o` | `output` | Carpeta de destino |
 | `--quality, -q` | `85` | Calidad WebP (0-100) |
 | `--workers, -w` | `4` | Hilos en paralelo |
-| `--dry-run` | off | Simula sin convertir |
+| `--dry-run` | off | Simula sin convertir ni crear salida |
 | `--skip-existing` | off | Omite ya convertidos |
+| `--lang, -l` | `en` | Idioma: `es`, `en`, `pt` |
 
-## 📁 Estructura
+## 📁 Estructura de salida
 
-```
+```text
 input/
   ├── foto1.jpg
   └── galeria/
@@ -72,6 +82,14 @@ output/webp_conversion_20241009_123456_ab12cd34/
 | SVG | WebP | requiere `cairosvg` |
 | JPG/JPEG | WebP | directo |
 | PNG | WebP | preserva transparencia |
+
+## 🧪 Tests
+
+El proyecto usa `pytest` y tiene TDD estricto habilitado en OpenSpec.
+
+```bash
+python -m pytest -q
+```
 
 ## 📄 Licencia
 
