@@ -36,6 +36,11 @@ MESSAGES = {
         "en": "Skip already converted files",
         "pt": "Ignorar arquivos já convertidos",
     },
+    "lang_help": {
+        "es": "Idioma: es, en, pt (default: en)",
+        "en": "Language: es, en, pt (default: en)",
+        "pt": "Idioma: es, en, pt (padrão: en)",
+    },
     "quality_range_err": {
         "es": "--quality debe estar entre 0 y 100",
         "en": "--quality must be between 0 and 100",

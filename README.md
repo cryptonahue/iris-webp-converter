@@ -17,6 +17,20 @@ Repositorio: [cryptonahue/iris-webp-converter](https://github.com/cryptonahue/ir
 
 ## 🚀 Instalación
 
+Para usar el proyecto localmente:
+
+```bash
+pip install -e .
+```
+
+Para desarrollo, tests y lint:
+
+```bash
+pip install -e ".[dev]"
+```
+
+También podés instalar dependencias sin modo editable:
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -31,10 +45,11 @@ pip install -r requirements.txt
 
 ```bash
 # Básico (usa input/ y output/)
-python iris.py
+iris
 
-# También puede ejecutarse como módulo
+# También puede ejecutarse como módulo o wrapper compatible
 python -m iris
+python iris.py
 
 # Entrada personalizada
 python iris.py --input ./mis_fotos
@@ -88,9 +103,10 @@ output/webp_conversion_20241009_123456_ab12cd34/
 
 ## 🧪 Tests
 
-El proyecto usa `pytest` y tiene TDD estricto habilitado en OpenSpec.
+El proyecto usa `pytest`, `ruff` y tiene TDD estricto habilitado en OpenSpec.
 
 ```bash
+python -m ruff check .
 python -m pytest -q
 ```
 

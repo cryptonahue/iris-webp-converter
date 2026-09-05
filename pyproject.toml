@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "iris-webp-converter"
 version = "0.1.0"
@@ -20,6 +24,9 @@ dev = [
 svg = [
     "cairosvg>=2.7.0",
 ]
+
+[tool.setuptools.packages.find]
+include = ["iris*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

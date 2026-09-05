@@ -4,54 +4,66 @@ from iris.converter import convert_to_webp, resolve_lang
 from iris.translations import text
 
 
-def main(argv=None):
+def build_parser(lang="en"):
     parser = argparse.ArgumentParser(
         prog="iris",
-        description="Iris: WebP Image Converter",
+        description=text(lang, "desc"),
     )
     parser.add_argument(
         "--input",
         "-i",
         default="input",
-        help="Source folder (default: input)",
+        help=text(lang, "input_help"),
     )
     parser.add_argument(
         "--output",
         "-o",
         default="output",
-        help="Destination folder (default: output)",
+        help=text(lang, "output_help"),
     )
     parser.add_argument(
         "--quality",
         "-q",
         type=int,
         default=85,
-        help="WebP quality 0-100 (default: 85)",
+        help=text(lang, "quality_help"),
     )
     parser.add_argument(
         "--workers",
         "-w",
         type=int,
         default=4,
-        help="Parallel workers (default: 4)",
+        help=text(lang, "workers_help"),
     )
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Simulate conversion without creating files",
+        help=text(lang, "dry_run_help"),
     )
     parser.add_argument(
         "--skip-existing",
         action="store_true",
-        help="Skip already converted files",
+        help=text(lang, "skip_existing_help"),
     )
     parser.add_argument(
         "--lang",
         "-l",
         default="en",
-        help="Language: es, en, pt (default: en)",
+        help=text(lang, "lang_help"),
     )
+    return parser
 
+
+def detect_requested_lang(argv=None):
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument("--lang", "-l", default="en")
+    args, _unknown = parser.parse_known_args(argv)
+    return resolve_lang(args.lang)
+
+
+def main(argv=None):
+    lang = detect_requested_lang(argv)
+    parser = build_parser(lang)
     args = parser.parse_args(argv)
     lang = resolve_lang(args.lang)
 
