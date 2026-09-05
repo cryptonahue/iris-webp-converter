@@ -40,9 +40,9 @@ testing:
     commands:
       []
 quality:
-  lint: ""
+  lint: "python -m ruff check ."
   lint_commands:
-    []
+    - "python -m ruff check ."
   typecheck: ""
   typecheck_commands:
     []

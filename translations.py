@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Traducciones para Iris (español, inglés, portugués de Brasil)."""
 
 # Cada clave es un mensaje con su traducción en es / en / pt-BR.

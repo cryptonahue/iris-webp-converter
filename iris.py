@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Iris — WebP Image Converter
 
@@ -19,6 +18,7 @@ import os
 import sys
 import uuid
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from contextlib import suppress
 from datetime import datetime
 from pathlib import Path
 
@@ -27,10 +27,8 @@ from PIL import Image
 # Forzar UTF-8 en consolas Windows para poder mostrar emojis/acentos
 if sys.platform == "win32":
     for stream in (sys.stdout, sys.stderr):
-        try:
+        with suppress(Exception):
             stream.reconfigure(encoding="utf-8", errors="replace")
-        except Exception:
-            pass
 
 try:
     import cairosvg  # solo necesario para convertir SVG
@@ -112,10 +110,7 @@ def convert_single_image(args):
         else:
             image = Image.open(file_path)
 
-        if image.mode in ("RGBA", "LA", "P"):
-            image = image.convert("RGBA")
-        else:
-            image = image.convert("RGB")
+        image = image.convert("RGBA" if image.mode in ("RGBA", "LA", "P") else "RGB")
 
         image.save(output_file_path, "WebP", quality=quality)
         new_size = os.path.getsize(output_file_path)
@@ -126,7 +121,9 @@ def convert_single_image(args):
             "relative_path": file_path,
             "original_size": original_size,
             "new_size": new_size,
-            "size_reduction": ((original_size - new_size) / original_size) * 100 if original_size else 0,
+            "size_reduction": (
+                ((original_size - new_size) / original_size) * 100 if original_size else 0
+            ),
             "dimensions": f"{image.width}x{image.height}",
             "success": True,
             "skipped": False,
