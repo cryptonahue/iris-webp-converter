@@ -63,6 +63,24 @@ def format_bytes(size: float) -> str:
     return f"{size:.1f} PB"
 
 
+def build_output_path(output_folder):
+    """Builds the unique output folder path for a conversion run."""
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    unique_id = str(uuid.uuid4())[:8]
+    return Path(output_folder) / f"webp_conversion_{timestamp}_{unique_id}"
+
+
+def discover_image_files(input_path, output_path, quality, skip_existing):
+    """Finds supported images and maps each one to its WebP destination."""
+    image_files = []
+    for file_path in input_path.rglob("*"):
+        if file_path.is_file() and file_path.suffix.lower() in SUPPORTED_FORMATS:
+            relative = file_path.relative_to(input_path)
+            dest = output_path / relative.parent / f"{file_path.stem}.webp"
+            image_files.append((str(file_path), str(dest), quality, skip_existing))
+    return image_files
+
+
 def convert_single_image(args):
     """Convierte una única imagen a WebP. Devuelve un dict con el resultado."""
     file_path, output_file_path, quality, skip_existing = args
@@ -126,16 +144,8 @@ def convert_to_webp(input_folder="input", output_folder="output",
         print(text(lang, "input_missing", folder=input_folder))
         return 1
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    unique_id = str(uuid.uuid4())[:8]
-    output_path = Path(output_folder) / f"webp_conversion_{timestamp}_{unique_id}"
-
-    image_files = []
-    for file_path in input_path.rglob("*"):
-        if file_path.is_file() and file_path.suffix.lower() in SUPPORTED_FORMATS:
-            relative = file_path.relative_to(input_path)
-            dest = output_path / relative.parent / f"{file_path.stem}.webp"
-            image_files.append((str(file_path), str(dest), quality, skip_existing))
+    output_path = build_output_path(output_folder)
+    image_files = discover_image_files(input_path, output_path, quality, skip_existing)
 
     if not image_files:
         print(text(lang, "no_images", folder=input_folder))
