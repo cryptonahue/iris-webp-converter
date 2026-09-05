@@ -106,8 +106,15 @@ output/webp_conversion_20241009_123456_ab12cd34/
 El proyecto usa `pytest`, `ruff` y tiene TDD estricto habilitado en OpenSpec.
 
 ```bash
+python -m ruff format --check .
 python -m ruff check .
 python -m pytest -q
+```
+
+Para formatear automáticamente:
+
+```bash
+python -m ruff format .
 ```
 
 ## 📄 Licencia

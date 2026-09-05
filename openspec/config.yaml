@@ -46,6 +46,6 @@ quality:
   typecheck: ""
   typecheck_commands:
     []
-  format: ""
+  format: "python -m ruff format --check ."
   format_commands:
-    []
+    - "python -m ruff format --check ."
