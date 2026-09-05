@@ -1,0 +1,24 @@
+# Entorno Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Carpetas de trabajo locales
+input/
+output/
+*.webp
+
+# IDEs / editores
+.vscode/
+.idea/
+.claude/
+
+# SO
+.DS_Store
+Thumbs.db
+# Local Pi runtime state
+.atl/
+.pi/

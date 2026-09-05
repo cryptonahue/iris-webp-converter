@@ -1,0 +1,51 @@
+strict_tdd: true
+context: |
+  iris is a Python project.
+  Detected markers: requirements.txt.
+  Test runner: pytest.
+  Unit tests: tests/.
+  Integration tests: none.
+  E2E tests: none.
+rules:
+  proposal:
+    require_problem_statement: true
+  spec:
+    require_acceptance_criteria: true
+  design:
+    require_tradeoffs: true
+  tasks:
+    protect_review_workload: true
+  apply:
+    test_command: "python -m pytest -q"
+  verify:
+    test_command: "python -m pytest -q"
+testing:
+  detected: "2026-09-05"
+  runner:
+    command: "python -m pytest -q"
+    framework: "pytest"
+  layers:
+    unit: "tests/"
+    integration: ""
+    e2e: ""
+  commands:
+    unit:
+      - "python -m pytest -q"
+    integration:
+      []
+    e2e:
+      []
+  coverage:
+    command: ""
+    commands:
+      []
+quality:
+  lint: ""
+  lint_commands:
+    []
+  typecheck: ""
+  typecheck_commands:
+    []
+  format: ""
+  format_commands:
+    []
